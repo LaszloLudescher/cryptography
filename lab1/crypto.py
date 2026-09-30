@@ -18,7 +18,17 @@ def encrypt_caesar(plaintext):
 
     Add more implementation details here.
     """
-    raise NotImplementedError  # Your implementation here
+    result = ""
+    i=0
+    for character in plaintext:
+        code = ord(character)
+        if code in  range(65, 91):
+            code = ((code -65 + 3) % 26 ) + 65
+            character = chr(code)
+        result += character
+        i+=1
+    return result
+    #raise NotImplementedError  # Your implementation here
 
 
 def decrypt_caesar(ciphertext):
@@ -26,6 +36,16 @@ def decrypt_caesar(ciphertext):
 
     Add more implementation details here.
     """
+    result = ""
+    i=0
+    for character in ciphertext:
+        code = ord(character)
+        if code in  range(65, 91):
+            code = ((code - 65 - 3) % 26 ) + 65
+            character = chr(code)
+        result += character
+        i+=1
+    return result
     raise NotImplementedError  # Your implementation here
 
 
@@ -36,7 +56,21 @@ def encrypt_vigenere(plaintext, keyword):
 
     Add more implementation details here.
     """
-    raise NotImplementedError  # Your implementation here
+    result = ""
+    i=0
+    j=0
+    keyword_list = list(keyword)
+    for character in plaintext:
+        code = ord(character)
+        if code in  range(65, 91):
+            keyword_code = ord(keyword_list[j])
+            code = ((code + keyword_code) % 26 ) + 65
+            character = chr(code)
+            j = (j+1) % len(keyword)
+        result += character
+        i+=1
+    return result
+    #raise NotImplementedError  # Your implementation here
 
 
 def decrypt_vigenere(ciphertext, keyword):
@@ -44,7 +78,21 @@ def decrypt_vigenere(ciphertext, keyword):
 
     Add more implementation details here.
     """
-    raise NotImplementedError  # Your implementation here
+    result = ""
+    i=0
+    j=0
+    keyword_list = list(keyword)
+    for character in ciphertext:
+        code = ord(character)
+        if code in  range(65, 91):
+            keyword_code = ord(keyword_list[j])
+            code = ((code - keyword_code) % 26 ) + 65
+            character = chr(code)
+            j = (j+1) % len(keyword)
+        result += character
+        i+=1
+    return result
+    #raise NotImplementedError  # Your implementation here
 
 
 # Merkle-Hellman Knapsack Cryptosystem
