@@ -94,6 +94,121 @@ def decrypt_vigenere(ciphertext, keyword):
     return result
     #raise NotImplementedError  # Your implementation here
 
+#Scytale
+def encrypt_scytale(plaintext, circumference):
+    result_list = []
+    result = ""
+    i=0
+    plaintext_list = list(plaintext)
+    length = len(plaintext)
+
+    while (length % circumference !=0 ):
+        plaintext_list.append('x')
+        length+=1
+
+    nr_rows = (length // circumference)
+    for i in range(0,length):
+        result_list.append( plaintext_list[ ((i % nr_rows) * circumference) + (i // nr_rows)] )
+    result = "".join(result_list)
+
+    return result
+
+def decrypt_scytale(ciphertext, circumference):
+    result_list = []
+    result = ""
+    i=0
+    ciphertext_list = list(ciphertext)
+    length = len(ciphertext)
+
+    while (length % circumference !=0 ):
+        ciphertext_list.append('x')
+        length+=1
+
+    row_len = (length // circumference)
+    for i in range(0,length):
+        result_list.append( ciphertext_list[ ((i % circumference) * row_len) + (i // circumference)] )
+    result = "".join(result_list)
+    
+    return result
+
+
+#Railfence
+def encrypt_railfence(plaintext, num_rails):
+    result_list = []
+    result = ""
+    i=0
+    plaintext_list = list(plaintext)
+    length = len(plaintext)
+    cycle_len = 2 * num_rails - 2
+
+    for i in range(0, num_rails):
+        j=0
+        while(True):
+            if i == 0:
+                if (j) * cycle_len >= length:
+                    break
+                result_list.append(plaintext_list[(j) * cycle_len])
+            elif i == (num_rails-1):
+                if i + j * cycle_len >= length:
+                    break
+                result_list.append(plaintext_list[i + j * cycle_len])
+            else:
+                if i + j * cycle_len >= length: 
+                    break
+                result_list.append(plaintext_list[i + j * cycle_len])
+
+                if cycle_len - i - 1 + j * cycle_len >= length:
+                                    break
+                result_list.append(plaintext_list[cycle_len - i + j * cycle_len])
+            j+=1
+
+    result = "".join(result_list)
+    return result
+
+def decrypt_railfence(ciphertext, num_rails):
+
+    rail_height_frequency = [0] * num_rails
+    current_level = 0
+    length = len(ciphertext)
+    down = True
+    for i in range(length):
+        rail_height_frequency[current_level] += 1
+        if current_level == 0:
+            down = True
+        elif current_level == num_rails - 1:
+            down = False
+
+        if (down):
+            current_level+=1
+        else:
+            current_level-=1
+        
+
+    containers = []
+    j=0 
+    for frequency in rail_height_frequency:
+        chars = list(ciphertext[j : j + frequency])
+        containers.append(chars)
+        j += frequency
+        
+    result_list = []
+    current_level = 0
+    down = True
+    
+    for i in range(length):
+        result_list.append(containers[current_level].pop(0))
+        
+        if current_level == 0:
+            down = True
+        elif current_level == num_rails - 1:
+            down = False
+            
+        if down:
+            current_level += 1
+        else:
+            current_level -= 1
+            
+    return "".join(result_list)
 
 # Merkle-Hellman Knapsack Cryptosystem
 
