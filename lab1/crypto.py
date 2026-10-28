@@ -157,8 +157,8 @@ def encrypt_railfence(plaintext, num_rails):
                     break
                 result_list.append(plaintext_list[i + j * cycle_len])
 
-                if cycle_len - i - 1 + j * cycle_len >= length:
-                                    break
+                if cycle_len - i + j * cycle_len >= length:
+                    break
                 result_list.append(plaintext_list[cycle_len - i + j * cycle_len])
             j+=1
 
@@ -182,7 +182,6 @@ def decrypt_railfence(ciphertext, num_rails):
             current_level+=1
         else:
             current_level-=1
-        
 
     containers = []
     j=0 
